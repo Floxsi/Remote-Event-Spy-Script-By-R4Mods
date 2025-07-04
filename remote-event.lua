@@ -84,12 +84,13 @@ local function createGUI()
     screenGui.Name = _U
 
     local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0.5, 0, 0.7, 0)
-    mainFrame.Position = UDim2.new(0.25, 0, 0.15, 0)
+    mainFrame.Size = UDim2.new(0.8, 0, 0.6, 0)
+    mainFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
     mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.ClipsDescendants = true
+    mainFrame.Visible = false
     mainFrame.Parent = screenGui
 
     local uiCorner = Instance.new("UICorner")
@@ -467,11 +468,14 @@ local function createGUI()
     icon.Position = UDim2.new(0, 16, 1, -64)
     icon.Image = "rbxassetid://7733764596"
     icon.BackgroundTransparency = 1
-    icon.Visible = false
+    icon.Visible = true
     icon.Draggable = true
     icon.MouseButton1Click:Connect(function()
         mainFrame.Visible = true
         icon.Visible = false
+        local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = game:GetService("TweenService"):Create(mainFrame, tweenInfo, {Position = UDim2.new(0.5, 0, 0.5, 0)})
+        tween:Play()
     end)
     icon.Parent = screenGui
 
@@ -561,6 +565,11 @@ local function createGUI()
             updateInput(input)
         end
     end)
+
+    -- Initial Animation
+    local initialTweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local initialTween = game:GetService("TweenService"):Create(icon, initialTweenInfo, {Position = UDim2.new(0, 16, 1, -64)})
+    initialTween:Play()
 end
 
 -- Fungsi Event Handler GUI

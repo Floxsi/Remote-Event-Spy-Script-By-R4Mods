@@ -1,8 +1,8 @@
 -- Konfigurasi Awal
 local _U = "_U" .. tostring(math.random(1e6))
-local _V = {}
-local _W = {}
-local _X = {}
+local _V = {} -- Log entries
+local _W = {logging = true, selectPart = false, selectGUI = false} -- Flags
+local _X = {} -- UI references
 
 -- Fungsi Helper
 local function formatPath(instance)
@@ -89,7 +89,7 @@ local function createGUI()
     mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     mainFrame.BorderSizePixel = 0
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-    mainFrame.Draggable = true
+    mainFrame.ClipsDescendants = true
     mainFrame.Parent = screenGui
 
     local uiCorner = Instance.new("UICorner")
@@ -121,13 +121,15 @@ local function createGUI()
     local title = Instance.new("TextLabel")
     title.Size = UDim2.new(1, -64, 0, 32)
     title.Position = UDim2.new(0, 16, 0, 8)
-    title.Text = "Remote Event & Function Spy"
+    title.Text = "Remote Spy"
     title.TextColor3 = Color3.fromRGB(255, 255, 255)
     title.BackgroundTransparency = 1
+    title.Font = Enum.Font.SourceSansBold
+    title.TextSize = 18
     title.Parent = mainFrame
 
     local scrollFrame = Instance.new("ScrollFrame")
-    scrollFrame.Size = UDim2.new(1, -16, 1, -56)
+    scrollFrame.Size = UDim2.new(1, -16, 1, -112)
     scrollFrame.Position = UDim2.new(0, 8, 0, 48)
     scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
     scrollFrame.ScrollBarThickness = 4
@@ -146,6 +148,8 @@ local function createGUI()
     searchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
     searchBox.BorderSizePixel = 0
     searchBox.ClearTextOnFocus = false
+    searchBox.Font = Enum.Font.SourceSans
+    searchBox.TextSize = 16
     searchBox.Parent = mainFrame
 
     local clearButton = Instance.new("ImageButton")
@@ -170,6 +174,8 @@ local function createGUI()
     exportButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     exportButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     exportButton.BorderSizePixel = 0
+    exportButton.Font = Enum.Font.SourceSans
+    exportButton.TextSize = 16
     exportButton.MouseButton1Click:Connect(function()
         local logString = ""
         for _, log in ipairs(_V) do
@@ -190,6 +196,8 @@ local function createGUI()
     toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     toggleButton.BorderSizePixel = 0
+    toggleButton.Font = Enum.Font.SourceSans
+    toggleButton.TextSize = 16
     toggleButton.MouseButton1Click:Connect(function()
         _W.logging = not _W.logging
         toggleButton.Text = _W.logging and "Stop Log" or "Toggle Log"
@@ -203,6 +211,8 @@ local function createGUI()
     selectPartButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     selectPartButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     selectPartButton.BorderSizePixel = 0
+    selectPartButton.Font = Enum.Font.SourceSans
+    selectPartButton.TextSize = 16
     selectPartButton.MouseButton1Click:Connect(function()
         _W.selectPart = not _W.selectPart
         selectPartButton.Text = _W.selectPart and "Stop Select Part" or "Select Part"
@@ -216,6 +226,8 @@ local function createGUI()
     selectGUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     selectGUIButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     selectGUIButton.BorderSizePixel = 0
+    selectGUIButton.Font = Enum.Font.SourceSans
+    selectGUIButton.TextSize = 16
     selectGUIButton.MouseButton1Click:Connect(function()
         _W.selectGUI = not _W.selectGUI
         selectGUIButton.Text = _W.selectGUI and "Stop Select GUI" or "Select GUI"
@@ -255,6 +267,8 @@ local function createGUI()
         nameLabel.Text = log.name
         nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         nameLabel.BackgroundTransparency = 1
+        nameLabel.Font = Enum.Font.SourceSans
+        nameLabel.TextSize = 16
         nameLabel.Parent = logFrame
 
         local pathLabel = Instance.new("TextLabel")
@@ -263,7 +277,9 @@ local function createGUI()
         pathLabel.Text = log.path
         pathLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         pathLabel.BackgroundTransparency = 1
-        nameLabel.Parent = logFrame
+        pathLabel.Font = Enum.Font.SourceSans
+        pathLabel.TextSize = 16
+        pathLabel.Parent = logFrame
 
         local kindLabel = Instance.new("TextLabel")
         kindLabel.Size = UDim2.new(0.1, 0, 0, 28)
@@ -271,6 +287,8 @@ local function createGUI()
         kindLabel.Text = log.kind
         kindLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         kindLabel.BackgroundTransparency = 1
+        kindLabel.Font = Enum.Font.SourceSans
+        kindLabel.TextSize = 16
         kindLabel.Parent = logFrame
 
         local timeLabel = Instance.new("TextLabel")
@@ -279,6 +297,8 @@ local function createGUI()
         timeLabel.Text = log.time
         timeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         timeLabel.BackgroundTransparency = 1
+        timeLabel.Font = Enum.Font.SourceSans
+        timeLabel.TextSize = 16
         timeLabel.Parent = logFrame
 
         local argLabel = Instance.new("TextLabel")
@@ -287,6 +307,8 @@ local function createGUI()
         argLabel.Text = ""
         argLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         argLabel.BackgroundTransparency = 1
+        argLabel.Font = Enum.Font.SourceSans
+        argLabel.TextSize = 16
         argLabel.Parent = logFrame
 
         local args = ""
@@ -329,6 +351,8 @@ local function createGUI()
                 argTypeLabel.Text = arg.type
                 argTypeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 argTypeLabel.BackgroundTransparency = 1
+                argTypeLabel.Font = Enum.Font.SourceSans
+                argTypeLabel.TextSize = 16
                 argTypeLabel.Parent = argFrame
 
                 local argValueLabel = Instance.new("TextLabel")
@@ -337,6 +361,8 @@ local function createGUI()
                 argValueLabel.Text = arg.value
                 argValueLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 argValueLabel.BackgroundTransparency = 1
+                argValueLabel.Font = Enum.Font.SourceSans
+                argValueLabel.TextSize = 16
                 argValueLabel.Parent = argFrame
             end
 
@@ -347,6 +373,8 @@ local function createGUI()
             copyPathButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             copyPathButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             copyPathButton.BorderSizePixel = 0
+            copyPathButton.Font = Enum.Font.SourceSans
+            copyPathButton.TextSize = 16
             copyPathButton.MouseButton1Click:Connect(function()
                 copyToClipboard(log.path)
             end)
@@ -359,6 +387,8 @@ local function createGUI()
             copyArgsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             copyArgsButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             copyArgsButton.BorderSizePixel = 0
+            copyArgsButton.Font = Enum.Font.SourceSans
+            copyArgsButton.TextSize = 16
             copyArgsButton.MouseButton1Click:Connect(function()
                 local argsString = ""
                 for _, arg in ipairs(log.args) do
@@ -375,6 +405,8 @@ local function createGUI()
             deleteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
             deleteButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
             deleteButton.BorderSizePixel = 0
+            deleteButton.Font = Enum.Font.SourceSans
+            deleteButton.TextSize = 16
             deleteButton.MouseButton1Click:Connect(function()
                 for i, v in ipairs(_V) do
                     if v == log then
@@ -460,6 +492,8 @@ local function createGUI()
                 partInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
                 partInfo.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 partInfo.BorderSizePixel = 0
+                partInfo.Font = Enum.Font.SourceSans
+                partInfo.TextSize = 16
                 partInfo.Parent = screenGui
                 wait(2)
                 partInfo:Destroy()
@@ -473,6 +507,8 @@ local function createGUI()
                 guiInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
                 guiInfo.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 guiInfo.BorderSizePixel = 0
+                guiInfo.Font = Enum.Font.SourceSans
+                guiInfo.TextSize = 16
                 guiInfo.Parent = screenGui
                 wait(2)
                 guiInfo:Destroy()
@@ -481,6 +517,50 @@ local function createGUI()
     end
 
     game:GetService("UserInputService").InputBegan:Connect(onTouchStarted)
+
+    -- Drag Support
+    local dragging = false
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function updateInput(input)
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    local function finishDrag()
+        dragging = false
+        dragInput = nil
+        dragStart = nil
+        startPos = nil
+    end
+
+    mainFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = mainFrame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    finishDrag()
+                end
+            end)
+        end
+    end)
+
+    mainFrame.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            updateInput(input)
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            updateInput(input)
+        end
+    end)
 end
 
 -- Fungsi Event Handler GUI

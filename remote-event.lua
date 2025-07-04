@@ -129,7 +129,7 @@ local function createGUI()
     title.TextSize = 18
     title.Parent = mainFrame
 
-    local scrollFrame = Instance.new("ScrollFrame")
+    local scrollFrame = Instance.new("ScrollingFrame")
     scrollFrame.Size = UDim2.new(1, -16, 1, -112)
     scrollFrame.Position = UDim2.new(0, 8, 0, 48)
     scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
